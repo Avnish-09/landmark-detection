@@ -1,57 +1,124 @@
+# Landmark Recognition using MobileNetV2
 
-A deep learning-based landmark recognition system that classifies architectural landmarks into six categories—Gothic, Modern, Mughal, Neoclassical, Pagodas, and Pyramids—using TensorFlow, Keras, and MobileNetV2 transfer learning.
-
-
-
-
-# Landmark Detection
+A deep learning-based landmark recognition system that classifies architectural landmarks into six categories — Gothic, Modern, Mughal, Neoclassical, Pagodas, and Pyramids — using TensorFlow, Keras, and MobileNetV2 transfer learning.
 
 ## Overview
 
-This project focuses on detecting and recognizing landmarks from images using computer vision and deep learning techniques. The model is trained to identify different landmarks based on visual features present in the input images.
+This project implements an image classification model for recognizing different architectural landmark categories from images.
+
+The model uses a pretrained MobileNetV2 network with transfer learning and a custom classification head.
 
 ## Objective
 
-The objective of this project is to develop an image classification model capable of recognizing landmarks from images and predicting the most likely landmark category.
+The objective of this project is to develop a deep learning model capable of automatically recognizing the architectural category of a landmark image.
+
+## Dataset
+
+The dataset was obtained from Kaggle using the Kaggle API.
+
+**Kaggle Dataset:**  
+https://www.kaggle.com/datasets/kayvanshah/landmarks-dataset
+
+The dataset contains **420 images** belonging to six classes:
+
+- Gothic
+- Modern
+- Mughal
+- Neoclassical
+- Pagodas
+- Pyramids
+
+### Dataset Split
+
+| Dataset | Images |
+|---|---:|
+| Training | 336 |
+| Validation | 84 |
+| Total | 420 |
+
+An 80/20 validation split was used.
 
 ## Technologies Used
 
-* Python
-* Google Colab
-* NumPy
-* Pandas
-* Matplotlib
-* TensorFlow / Keras
-* OpenCV
-* Scikit-learn
+- Python
+- TensorFlow
+- Keras
+- MobileNetV2
+- NumPy
+- Matplotlib
+- Google Colab
+- Kaggle API
+- PIL
 
 ## Methodology
 
-1. Collected and prepared the landmark image dataset.
-2. Preprocessed and resized the images.
-3. Split the dataset into training and testing sets.
-4. Built and trained a deep learning image classification model.
-5. Evaluated the model using test images.
-6. Visualized the model's predictions and performance.
+### 1. Dataset Download
 
-## Results
+The dataset was downloaded directly from Kaggle using the Kaggle API.
 
-The trained model was able to classify landmark images into their respective categories. The project demonstrated the use of deep learning and computer vision for image-based landmark recognition.
+### 2. Image Preprocessing
 
-## How to Run
+- Images were resized to **160 × 160 pixels**.
+- Images were normalized according to MobileNetV2 preprocessing requirements.
+- Image files were checked and converted to RGB JPEG format.
 
-1. Open the notebook in Google Colab.
-2. Upload or connect the required dataset.
-3. Install the required libraries, if necessary.
-4. Run the notebook cells sequentially.
-5. Provide an image to test the trained model.
+### 3. Data Augmentation
 
-## Project Structure
+The following augmentation techniques were applied:
 
-* `landmark_detection.ipynb` – Main project notebook
-* `data/` – Dataset information
-* `results/` – Generated results and visualizations
+- Random horizontal flipping
+- Random rotation
+- Random zoom
 
-## Author
+### 4. Transfer Learning
 
-**Avnish Raj**
+MobileNetV2 pretrained on ImageNet was used as the base model.
+
+The MobileNetV2 base layers were frozen and used as a feature extractor.
+
+The classification head consisted of:
+
+- Global Average Pooling
+- Dropout (0.3)
+- Dense layer with 6 output classes
+- Softmax activation
+
+### 5. Model Training
+
+The model was trained using:
+
+| Parameter | Value |
+|---|---|
+| Architecture | MobileNetV2 |
+| Input Size | 160 × 160 × 3 |
+| Batch Size | 32 |
+| Epochs | 12 |
+| Optimizer | Adam |
+| Learning Rate | 0.001 |
+| Loss Function | Sparse Categorical Crossentropy |
+| Output Classes | 6 |
+
+## Model Architecture
+
+```text
+Input Image
+   ↓
+160 × 160 × 3
+   ↓
+Data Augmentation
+   ├── Random Flip
+   ├── Random Rotation
+   └── Random Zoom
+   ↓
+MobileNetV2
+(ImageNet Pretrained)
+   ↓
+Global Average Pooling
+   ↓
+Dropout (0.3)
+   ↓
+Dense Layer
+   ↓
+Softmax
+   ↓
+6 Landmark Classes
