@@ -1,0 +1,35 @@
+## Results
+
+The trained MobileNetV2-based image classification model was evaluated on a validation set containing 84 images across six architectural categories.
+
+### Model Performance
+
+| Metric                    |     Result |
+| ------------------------- | ---------: |
+| Total Images              |        420 |
+| Training Images           |        336 |
+| Validation Images         |         84 |
+| Number of Classes         |          6 |
+| Final Validation Accuracy | **91.67%** |
+| Final Validation Loss     | **0.3058** |
+
+### Classes
+
+The model classifies architectural landmarks into:
+
+* Gothic
+* Modern
+* Mughal
+* Neoclassical
+* Pagodas
+* Pyramids
+
+### Training Approach
+
+The model was developed using transfer learning with **MobileNetV2** pretrained on ImageNet. Initially, the base model was frozen and trained with a new classification head. The model was then fine-tuned by unfreezing the final 30 layers using a lower learning rate.
+
+After fine-tuning for five additional epochs, the model achieved a final validation accuracy of **91.67%**.
+
+### Prediction Results
+
+The trained model was also tested on validation images to compare the actual class with the predicted class. Sample predictions are visualized in the notebook.
